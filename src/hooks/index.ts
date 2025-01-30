@@ -1,1 +1,2 @@
-export { default } from './useClickOutside';
+export * from './useClickOutside';
+export * from './useTheme';
