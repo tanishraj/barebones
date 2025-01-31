@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const themes = [
+const defaultThemes = [
   'light',
   'dark',
   'cupcake',
@@ -32,17 +32,35 @@ const themes = [
   'winter',
 ];
 
-export const useTheme = (initialTheme = 'light') => {
+export const useTheme = (initialTheme = 'light', themes?: string[]) => {
   const [currentTheme, setCurrentTheme] = useState(initialTheme);
+  const availableThemes = themes && themes.length > 0 ? themes : defaultThemes;
+
+  const firstTheme = availableThemes[0];
+  const secondTheme = availableThemes[1];
+
+  console.log('currentTheme', currentTheme);
 
   const handleThemeChange = (theme: string) => {
-    setCurrentTheme(theme);
-    document.documentElement.setAttribute('data-theme', theme);
+    if (availableThemes.includes(theme)) {
+      setCurrentTheme(theme);
+      document.documentElement.setAttribute('data-theme', theme);
+    } else {
+      console.warn(`Theme "${theme}" is not available.`);
+    }
+  };
+
+  const toggleTheme = () => {
+    console.log('TOGGLE THEME SELECETED');
+    const newTheme = currentTheme === firstTheme ? secondTheme : firstTheme;
+    setCurrentTheme(newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
   };
 
   return {
     currentTheme,
     handleThemeChange,
-    themes,
+    toggleTheme,
+    themes: availableThemes,
   };
 };
