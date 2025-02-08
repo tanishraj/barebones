@@ -32,14 +32,11 @@ const defaultThemes = [
   'winter',
 ];
 
+export type Theme = (typeof defaultThemes)[number];
+
 export const useTheme = (initialTheme = 'light', themes?: string[]) => {
   const [currentTheme, setCurrentTheme] = useState(initialTheme);
   const availableThemes = themes && themes.length > 0 ? themes : defaultThemes;
-
-  const firstTheme = availableThemes[0];
-  const secondTheme = availableThemes[1];
-
-  console.log('currentTheme', currentTheme);
 
   const handleThemeChange = (theme: string) => {
     if (availableThemes.includes(theme)) {
@@ -50,17 +47,9 @@ export const useTheme = (initialTheme = 'light', themes?: string[]) => {
     }
   };
 
-  const toggleTheme = () => {
-    console.log('TOGGLE THEME SELECETED');
-    const newTheme = currentTheme === firstTheme ? secondTheme : firstTheme;
-    setCurrentTheme(newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
-  };
-
   return {
     currentTheme,
     handleThemeChange,
-    toggleTheme,
     themes: availableThemes,
   };
 };
