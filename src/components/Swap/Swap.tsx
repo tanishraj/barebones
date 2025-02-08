@@ -8,6 +8,8 @@ export const Swap = ({
   children,
   active,
   className,
+  theme,
+  ...rest
 }: SwapProps) => {
   const [firstChild, secondChild] = children || [];
 
@@ -15,7 +17,15 @@ export const Swap = ({
     <label
       className={clsx('swap', swapStyles({ animationType, active }), className)}
     >
-      {!active && <input type='checkbox' hidden />}
+      {!active && (
+        <input
+          type='checkbox'
+          className={clsx('', { 'theme-controller': theme })}
+          value={theme}
+          hidden
+          {...rest}
+        />
+      )}
       <div className='swap-on'>{firstChild}</div>
       <div className='swap-off'>{secondChild}</div>
     </label>
