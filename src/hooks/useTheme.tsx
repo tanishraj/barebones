@@ -1,66 +1,41 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const defaultThemes = [
-  'light',
-  'dark',
-  'cupcake',
-  'bumblebee',
-  'emerald',
-  'corporate',
-  'synthwave',
-  'retro',
-  'cyberpunk',
-  'valentine',
-  'halloween',
-  'garden',
-  'forest',
-  'aqua',
-  'lofi',
-  'pastel',
-  'fantasy',
-  'wireframe',
-  'black',
-  'luxury',
-  'dracula',
-  'cmyk',
-  'autumn',
-  'business',
-  'acid',
-  'lemonade',
-  'night',
-  'coffee',
-  'winter',
-];
+type UseThemeOptions = {
+  themes: string[];
+  defaultTheme?: string;
+};
 
-export const useTheme = (initialTheme = 'light', themes?: string[]) => {
-  const [currentTheme, setCurrentTheme] = useState(initialTheme);
-  const availableThemes = themes && themes.length > 0 ? themes : defaultThemes;
+export const useTheme = ({ themes, defaultTheme }: UseThemeOptions) => {
+  const [currentTheme, setCurrentTheme] = useState(() => {
+    if (typeof window === 'undefined') return defaultTheme || themes[0];
+    const savedTheme = localStorage.getItem('theme');
+    return themes.includes(savedTheme!)
+      ? savedTheme!
+      : defaultTheme || themes[0];
+  });
 
-  const firstTheme = availableThemes[0];
-  const secondTheme = availableThemes[1];
-
-  console.log('currentTheme', currentTheme);
-
-  const handleThemeChange = (theme: string) => {
-    if (availableThemes.includes(theme)) {
-      setCurrentTheme(theme);
-      document.documentElement.setAttribute('data-theme', theme);
-    } else {
-      console.warn(`Theme "${theme}" is not available.`);
+  useEffect(() => {
+    if (themes.length === 0) return;
+    if (!themes.includes(currentTheme)) {
+      setCurrentTheme(defaultTheme || themes[0]);
     }
+  }, [currentTheme, defaultTheme, themes]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      localStorage.setItem('theme', currentTheme);
+    }
+  }, [currentTheme]);
+
+  const setTheme = (theme: string) => {
+    if (themes.includes(theme)) setCurrentTheme(theme);
   };
 
   const toggleTheme = () => {
-    console.log('TOGGLE THEME SELECETED');
-    const newTheme = currentTheme === firstTheme ? secondTheme : firstTheme;
-    setCurrentTheme(newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
+    const nextIndex = (themes.indexOf(currentTheme) + 1) % themes.length;
+    setCurrentTheme(themes[nextIndex]);
   };
 
-  return {
-    currentTheme,
-    handleThemeChange,
-    toggleTheme,
-    themes: availableThemes,
-  };
+  return { currentTheme, setTheme, toggleTheme };
 };
