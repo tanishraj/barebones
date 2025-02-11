@@ -1,11 +1,45 @@
 import { useEffect, useState } from 'react';
 
-type UseThemeOptions = {
-  themes: string[];
+export const themes = [
+  'light',
+  'dark',
+  'cupcake',
+  'bumblebee',
+  'emerald',
+  'corporate',
+  'synthwave',
+  'retro',
+  'cyberpunk',
+  'valentine',
+  'halloween',
+  'garden',
+  'forest',
+  'aqua',
+  'lofi',
+  'pastel',
+  'fantasy',
+  'wireframe',
+  'black',
+  'luxury',
+  'dracula',
+  'cmyk',
+  'autumn',
+  'business',
+  'acid',
+  'lemonade',
+  'night',
+  'coffee',
+  'winter',
+];
+
+export type Theme = (typeof themes)[number];
+
+export type UseThemeOptions = {
+  themes: Theme[];
   defaultTheme?: string;
 };
 
-export const useTheme = ({ themes, defaultTheme }: UseThemeOptions) => {
+export const useTheme = ({ defaultTheme, themes }: UseThemeOptions) => {
   const [currentTheme, setCurrentTheme] = useState(() => {
     if (typeof window === 'undefined') return defaultTheme || themes[0];
     const savedTheme = localStorage.getItem('theme');
