@@ -8,7 +8,7 @@ const meta: Meta<typeof Select> = {
   tags: ['autodocs'],
   argTypes: {
     variant: {
-      control: 'select',
+      control: { type: 'select' },
       options: [
         'primary',
         'secondary',
@@ -26,27 +26,21 @@ const meta: Meta<typeof Select> = {
         type: 'select',
       },
       options: ['xs', 'sm', 'md', 'lg'],
-      description: 'Size of the select component',
     },
     bordered: {
       control: 'boolean',
-      description: 'Whether to show a border around the select',
     },
     disabled: {
       control: 'boolean',
-      description: 'Disables the select interaction',
     },
     label: {
       control: 'text',
-      description: 'Label text displayed above the select',
     },
     helperText: {
       control: 'text',
-      description: 'Helper text displayed below the select',
     },
     className: {
       control: 'text',
-      description: 'Additional classes for the select element',
     },
   },
   args: {
@@ -61,6 +55,7 @@ const meta: Meta<typeof Select> = {
     disabled: false,
     label: 'Choose an option',
     helperText: 'This is a helper text',
+    className: '',
   },
 };
 
