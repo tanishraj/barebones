@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority';
 
-export const selectVariants = cva('select', {
+export const selectStyles = cva('select', {
   variants: {
     variant: {
       primary: 'select-primary',

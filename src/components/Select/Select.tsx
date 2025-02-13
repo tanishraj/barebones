@@ -1,11 +1,12 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 
-import { selectVariants } from './Select.styles';
+import { selectStyles } from './Select.styles';
+import { SelectElementProps, SelectOptions } from './types';
 
-type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> &
-  VariantProps<typeof selectVariants> & {
-    options: { value: string; label: string }[];
+export type SelectProps = SelectElementProps &
+  VariantProps<typeof selectStyles> & {
+    options: SelectOptions[];
     label?: string;
     helperText?: string;
     className?: string;
@@ -16,7 +17,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     {
       options,
       variant,
-      size,
+      size = 'md',
       bordered,
       disabled,
       label,
@@ -35,7 +36,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         )}
         <select
           ref={ref}
-          className={selectVariants({
+          className={selectStyles({
             variant,
             size,
             bordered,
